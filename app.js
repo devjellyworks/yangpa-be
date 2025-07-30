@@ -3,6 +3,8 @@ require('dotenv').config();
 
 const express = require('express');
 const morgan = require('morgan');
+const cors = require('cors');
+
 const port = process.env.PORT || 3000;
 const app = express();
 const memberRouter = require('./routers/memberRouter');
@@ -12,6 +14,12 @@ const authorization = require('./routers/authorization');
 const errorHandler = require('./routers/errorHandler');
 app.use(morgan('dev'));
 app.use(express.json());
+app.use(
+  cors({
+    origin: 'http://localhost:3000',
+    credentials: true,
+  })
+);
 app.use(express.urlencoded({ extended: true }));
 app.use('/sales', authorization);
 app.use('/sales', saleRouter);
